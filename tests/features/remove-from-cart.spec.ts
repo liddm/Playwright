@@ -7,10 +7,7 @@ import { HomePage } from '../pages/HomePage'
 // ===========================================
 
 const VALID_PASSWORD = 'secret_sauce'
-const INVALID_PASSWORD = 'XXX'
 const VALID_USER = 'standard_user'
-const LOCKED_USER = 'locked_out_user'
-const INVALID_USER = 'xxx'
 
 // ===========================================
 // variables
@@ -24,42 +21,36 @@ let homePage: HomePage
 // ===========================================
 
 test.beforeEach(async ({ page }) => {
+
     loginPage = new LoginPage(page)
     homePage = new HomePage(page)
 
     await page.goto('/')
+    await loginPage.login(VALID_USER, VALID_PASSWORD)
+    await homePage.addToCartFirstItem()
+    await homePage.removeFromCartFirstItem()
+
 })
 
 // ===========================================
 // test scenarios
 // ===========================================
 
+test.describe('Remove First Item From Cart', { tag: '@smoke' }, async () => {
 
-test.describe('Login Validation', { tag: '@smoke' }, async () => {
+    test('Verify Button', async () => {
 
-    test('Valid User', async ({ page }) => {
-
-        await loginPage.login(VALID_USER, VALID_PASSWORD)
-
-        await expect(page).toHaveURL('/inventory.html')
-        await expect(homePage.header).toBeVisible()
+        await expect(homePage.btn_removeFromCartFirstItem).not.toBeVisible()
+        await expect(homePage.btn_addToCartFirstItem).toBeVisible()
+        await expect(homePage.btn_addToCartFirstItem).toHaveText('Add to cart')
 
     })
 
-    test('Locked User', async () => {
+    test('Verify Badge', async () => {
 
-        await loginPage.login(LOCKED_USER, VALID_PASSWORD)
-
-        await expect(loginPage.error).toContainText('Sorry, this user has been locked out.')
-
-    })
-
-    test('Invalid User', async () => {
-
-        await loginPage.login(INVALID_USER, INVALID_PASSWORD)
-
-        await expect(loginPage.error).toContainText('Username and password do not match any user in this service')
+        await expect(homePage.badge_cartItemQuantity).not.toBeVisible()
 
     })
 
 })
+

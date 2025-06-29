@@ -1,6 +1,11 @@
 import { Locator, Page } from "@playwright/test";
 
 export class LoginPage {
+
+    // ===========================================
+    // Locators
+    // ===========================================
+
     private readonly page: Page
     private readonly field_username: Locator
     private readonly field_password: Locator
@@ -15,9 +20,18 @@ export class LoginPage {
         this._error = this.page.getByTestId('error')
 
     }
+
+    // ===========================================
+    // Getters
+    // ===========================================
+
     get error() {
         return this._error
     }
+
+    // ===========================================
+    // Actions
+    // ===========================================
 
     async login(username: string, password: string): Promise<void> {
         await this.field_username.fill(username)
