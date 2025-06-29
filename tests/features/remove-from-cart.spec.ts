@@ -32,7 +32,7 @@ test.beforeEach(async ({ page }) => {
     await page.goto('/')
     await loginPage.login(VALID_USER, VALID_PASSWORD)
     await homePage.addToCartFirstItem()
-    await homePage.btn_cartIcon()
+    await homePage.clickToCartIcon()
     await cartPage.removeFromCartPageFirstItem()
 
 }
@@ -47,7 +47,8 @@ test.describe('Remove Itens from cart', { tag: '@smoke' }, async () => {
     test('Delete first item from cart', async () => {
 
         await expect(cartPage.btn_removeFromCartPageFirstItem).not.toBeVisible()
-
+        await cartPage.continueShopping()
+        await expect(homePage.btn_removeFromCartFirstItem).not.toBeVisible()
     })
 
     test('Verify Badge', async () => {

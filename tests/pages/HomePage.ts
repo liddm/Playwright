@@ -54,7 +54,7 @@ export class HomePage {
         await this._btn_removeFromCartFirstItem.click()
     }
 
-    async btn_cartIcon(): Promise<void> {
+    async clickToCartIcon(): Promise<void> {
         await this._btn_cartIcon.click()
     }
 }
