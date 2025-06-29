@@ -12,6 +12,7 @@ export class HomePage {
     private readonly _btn_addToCartFirstItem: Locator
     private readonly _btn_removeFromCartFirstItem: Locator
     private readonly _badge_cartItemQuantity: Locator
+    private readonly _btn_cartIcon: Locator
 
     constructor(page: Page) {
         this.page = page
@@ -20,6 +21,7 @@ export class HomePage {
         this._btn_addToCartFirstItem = this.page.getByTestId(/add-to-cart/).first()
         this._btn_removeFromCartFirstItem = this.page.getByTestId(/remove/).first()
         this._badge_cartItemQuantity = this.page.getByTestId('shopping-cart-badge')
+        this._btn_cartIcon = this.page.getByTestId('shopping-cart-link')
     }
 
     // ===========================================
@@ -52,5 +54,7 @@ export class HomePage {
         await this._btn_removeFromCartFirstItem.click()
     }
 
-
+    async btn_cartIcon(): Promise<void> {
+        await this._btn_cartIcon.click()
+    }
 }

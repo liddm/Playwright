@@ -1,8 +1,6 @@
 import { test, expect } from '@playwright/test'
 import { LoginPage } from '../pages/LoginPage'
 import { HomePage } from '../pages/HomePage'
-import { CartPage } from '../pages/CartPage'
-
 
 // ===========================================
 // constants
@@ -17,7 +15,6 @@ const VALID_USER = 'standard_user'
 
 let loginPage: LoginPage
 let homePage: HomePage
-let cartPage: CartPage
 
 // ===========================================
 // pre conditions
@@ -27,32 +24,31 @@ test.beforeEach(async ({ page }) => {
 
     loginPage = new LoginPage(page)
     homePage = new HomePage(page)
-    cartPage = new CartPage(page)
 
     await page.goto('/')
     await loginPage.login(VALID_USER, VALID_PASSWORD)
     await homePage.addToCartFirstItem()
-    await homePage.btn_cartIcon()
-    await cartPage.removeFromCartPageFirstItem()
+    await homePage.removeFromCartFirstItem()
 
-}
-)
+})
 
 // ===========================================
 // test scenarios
 // ===========================================
 
-test.describe('Remove Itens from cart', { tag: '@smoke' }, async () => {
+test.describe('Remove First Item From Cart', { tag: '@smoke' }, async () => {
 
-    test('Delete first item from cart', async () => {
+    test('Verify Button', async () => {
 
-        await expect(cartPage.btn_removeFromCartPageFirstItem).not.toBeVisible()
+        await expect(homePage.btn_removeFromCartFirstItem).not.toBeVisible()
+        await expect(homePage.btn_addToCartFirstItem).toBeVisible()
+        await expect(homePage.btn_addToCartFirstItem).toHaveText('Add to cart')
 
     })
 
     test('Verify Badge', async () => {
 
-        await expect(cartPage.badge_cartItemQuantity).not.toBeVisible
+        await expect(homePage.badge_cartItemQuantity).not.toBeVisible()
 
     })
 
