@@ -32,7 +32,7 @@ test.beforeEach(async ({ page }) => {
     await page.goto('/')
     await loginPage.login(VALID_USER, VALID_PASSWORD)
     await homePage.addToCartFirstItem()
-    await homePage.clickToCartIcon()
+    await homePage.clickOnCartIcon()
     await cartPage.removeFromCartPageFirstItem()
 
 }
