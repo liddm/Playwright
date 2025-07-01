@@ -1,16 +1,14 @@
 import { test, expect } from '@playwright/test'
 import { LoginPage } from '../pages/LoginPage'
 import { HomePage } from '../pages/HomePage'
+import { CartPage } from '../pages/CartPage'
 
 // ===========================================
 // constants
 // ===========================================
 
 const VALID_PASSWORD = 'secret_sauce'
-const INVALID_PASSWORD = 'XXX'
 const VALID_USER = 'standard_user'
-const LOCKED_USER = 'locked_out_user'
-const INVALID_USER = 'xxx'
 
 // ===========================================
 // variables
@@ -18,49 +16,55 @@ const INVALID_USER = 'xxx'
 
 let loginPage: LoginPage
 let homePage: HomePage
+let cartPage: CartPage
 
 // ===========================================
 // pre conditions
 // ===========================================
 
 test.beforeEach(async ({ page }) => {
+
     loginPage = new LoginPage(page)
     homePage = new HomePage(page)
+    cartPage = new CartPage(page)
 
     await page.goto('/')
+    await loginPage.login(VALID_USER, VALID_PASSWORD)
+    await homePage.openBurgerMenu()
+
 })
 
 // ===========================================
 // test scenarios
 // ===========================================
 
+test.describe('Burger Menu Validation', { tag: '@smoke' }, async () => {
 
-test.describe('Login Validation', { tag: '@smoke' }, async () => {
+    test('About', async ({ page }) => {
 
-    test('Valid User', async ({ page }) => {
+        await homePage.clickOnAboutLink()
 
-        await loginPage.login(VALID_USER, VALID_PASSWORD)
+        await expect(page).toHaveURL('https://saucelabs.com')
+
+    })
+
+    test('All Items', async ({ page }) => {
+
+        await homePage.clickOnCartIcon()
+        await cartPage.goToAllItemsPage()
 
         await expect(page).toHaveURL('/inventory.html')
-        await expect(homePage.header).toBeVisible()
+        await expect(homePage.btn_addToCartFirstItem).toBeVisible()
 
     })
 
-    test('Locked User', async () => {
+    test('Logout User', async ({ page }) => {
 
-        await loginPage.login(LOCKED_USER, VALID_PASSWORD)
+        await homePage.clickOnLogoutLink()
 
-        await expect(loginPage.error).toContainText('Sorry, this user has been locked out.')
-
-    })
-
-    test('Invalid User', async () => {
-
-        await loginPage.login(INVALID_USER, INVALID_PASSWORD)
-
-        await expect(loginPage.error).toContainText('Username and password do not match any user in this service')
+        await expect(page).toHaveURL('/')
+        await expect(loginPage.field_username).toBeVisible()
 
     })
 
 })
-

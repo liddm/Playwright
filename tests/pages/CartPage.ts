@@ -1,22 +1,18 @@
 import { Locator, Page } from "@playwright/test";
+import { BasePage } from "./BasePage";
 
-export class CartPage {
+export class CartPage extends BasePage {
 
     // ===========================================
     // Locators
     // ===========================================
 
-    private readonly page: Page
-    private readonly _header: Locator
     private readonly _btn_removeFromCartPageFirstItem: Locator
-    private readonly _badge_cartItemQuantity: Locator
     private readonly _btn_continueShopping: Locator
 
     constructor(page: Page) {
-        this.page = page
-        this._header = this.page.getByTestId('primary-header')
+        super(page)
         this._btn_removeFromCartPageFirstItem = this.page.getByTestId(/remove/).first()
-        this._badge_cartItemQuantity = this.page.getByTestId('shopping-cart-badge')
         this._btn_continueShopping = this.page.getByTestId('continue-shopping')
 
     }
