@@ -53,7 +53,7 @@ test.describe('Remove Itens from cart', { tag: '@smoke' }, async () => {
 
     test('Verify Badge', async () => {
 
-        await expect(cartPage.badge_cartItemQuantity).not.toBeVisible
+        await expect(cartPage.badge_cartItemQuantity).not.toBeVisible()
 
     })
 
