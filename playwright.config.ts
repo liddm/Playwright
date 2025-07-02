@@ -10,6 +10,11 @@ export default defineConfig({
 
     reporter: 'html',
 
+    // timeouts
+    globalTimeout: 60_000 * 10,
+    timeout: 30_000,
+    expect: { timeout: 5000 },
+
     use: {
         baseURL: 'https://www.saucedemo.com',
         testIdAttribute: 'data-test',
@@ -17,8 +22,6 @@ export default defineConfig({
         video: 'retain-on-failure',
         trace: 'retain-on-failure',
     },
-
-    expect: { timeout: 5000 },
 
     projects: [
         {
