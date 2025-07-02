@@ -3,7 +3,6 @@ import { LoginPage } from '../pages/LoginPage'
 import { HomePage } from '../pages/HomePage'
 import { CartPage } from '../pages/CartPage'
 
-
 // ===========================================
 // constants
 // ===========================================
@@ -31,31 +30,41 @@ test.beforeEach(async ({ page }) => {
 
     await page.goto('/')
     await loginPage.login(VALID_USER, VALID_PASSWORD)
-    await homePage.addToCartFirstItem()
-    await homePage.clickOnCartIcon()
-    await cartPage.removeFromCartPageFirstItem()
+    await homePage.openBurgerMenu()
 
-}
-)
+})
 
 // ===========================================
 // test scenarios
 // ===========================================
 
-test.describe('Remove Itens from cart', { tag: '@smoke' }, async () => {
+test.describe('Burger Menu Validation', { tag: '@smoke' }, async () => {
 
-    test('Delete first item from cart', async () => {
+    test('About', async ({ page }) => {
 
-        await expect(cartPage.btn_removeFromCartPageFirstItem).not.toBeVisible()
-        await cartPage.continueShopping()
-        await expect(homePage.btn_removeFromCartFirstItem).not.toBeVisible()
+        await homePage.clickOnAboutLink()
+
+        await expect(page).toHaveURL('https://saucelabs.com')
+
     })
 
-    test('Verify Badge', async () => {
+    test('All Items', async ({ page }) => {
 
-        await expect(cartPage.badge_cartItemQuantity).not.toBeVisible
+        await homePage.clickOnCartIcon()
+        await cartPage.goToAllItemsPage()
+
+        await expect(page).toHaveURL('/inventory.html')
+        await expect(homePage.btn_addToCartFirstItem).toBeVisible()
+
+    })
+
+    test('Logout User', async ({ page }) => {
+
+        await homePage.clickOnLogoutLink()
+
+        await expect(page).toHaveURL('/')
+        await expect(loginPage.field_username).toBeVisible()
 
     })
 
 })
-
