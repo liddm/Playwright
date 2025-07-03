@@ -2,15 +2,7 @@ import { test, expect } from '@playwright/test'
 import { LoginPage } from '../pages/LoginPage'
 import { HomePage } from '../pages/HomePage'
 
-// ===========================================
-// constants
-// ===========================================
-
-const VALID_PASSWORD = 'secret_sauce'
-const INVALID_PASSWORD = 'XXX'
-const VALID_USER = 'standard_user'
-const LOCKED_USER = 'locked_out_user'
-const INVALID_USER = 'xxx'
+test.use({ storageState: { cookies: [], origins: [] } });
 
 // ===========================================
 // variables
@@ -35,11 +27,11 @@ test.beforeEach(async ({ page }) => {
 // ===========================================
 
 
-test.describe('Login Validation', { tag: '@smoke' }, async () => {
+test.describe('Login Validation', async () => {
 
-    test('Valid User', async ({ page }) => {
+    test('Valid User', { tag: '@smoke' }, async ({ page }) => {
 
-        await loginPage.login(VALID_USER, VALID_PASSWORD)
+        await loginPage.login(process.env.VALID_USER as string, process.env.VALID_PASSWORD as string)
 
         await expect(page).toHaveURL('/inventory.html')
         await expect(homePage.header).toBeVisible()
@@ -48,15 +40,15 @@ test.describe('Login Validation', { tag: '@smoke' }, async () => {
 
     test('Locked User', async () => {
 
-        await loginPage.login(LOCKED_USER, VALID_PASSWORD)
+        await loginPage.login(process.env.LOCKED_USER as string, process.env.VALID_PASSWORD as string)
 
         await expect(loginPage.error).toContainText('Sorry, this user has been locked out.')
 
     })
 
-    test('Invalid User', async () => {
+    test('Invalid User', { tag: '@smoke' }, async () => {
 
-        await loginPage.login(INVALID_USER, INVALID_PASSWORD)
+        await loginPage.login(process.env.INVALID_USER as string, process.env.INVALID_PASSWORD as string)
 
         await expect(loginPage.error).toContainText('Username and password do not match any user in this service')
 
