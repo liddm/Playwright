@@ -1,5 +1,9 @@
 import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv'
+dotenv.config({ quiet: true })
+
 export default defineConfig({
+
     testDir: './tests',
 
     fullyParallel: true,
@@ -11,6 +15,7 @@ export default defineConfig({
     reporter: 'html',
 
     // timeouts
+
     globalTimeout: 60_000 * 10,
     timeout: 30_000,
     expect: { timeout: 5000 },
@@ -24,12 +29,22 @@ export default defineConfig({
     },
 
     projects: [
+
+        {
+
+            name: 'setup',
+            testMatch: 'global.setup.ts'
+
+        },
+
         {
             name: 'chromium',
             use: {
                 ...devices['Desktop Chrome'],
                 viewport: { width: 1920, height: 1080 },
+                storageState: '.auth/user.json'
             },
+            dependencies: ['setup']
         },
 
     ],

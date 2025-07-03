@@ -4,13 +4,6 @@ import { HomePage } from '../pages/HomePage'
 import { CartPage } from '../pages/CartPage'
 
 // ===========================================
-// constants
-// ===========================================
-
-const VALID_PASSWORD = 'secret_sauce'
-const VALID_USER = 'standard_user'
-
-// ===========================================
 // variables
 // ===========================================
 
@@ -28,8 +21,7 @@ test.beforeEach(async ({ page }) => {
     homePage = new HomePage(page)
     cartPage = new CartPage(page)
 
-    await page.goto('/')
-    await loginPage.login(VALID_USER, VALID_PASSWORD)
+    await page.goto('/inventory.html')
     await homePage.openBurgerMenu()
 
 })

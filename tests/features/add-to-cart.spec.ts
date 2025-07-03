@@ -1,20 +1,11 @@
 import { test, expect } from '@playwright/test'
-import { LoginPage } from '../pages/LoginPage'
 import { HomePage } from '../pages/HomePage'
 import { CartPage } from '../pages/CartPage'
-
-// ===========================================
-// constants
-// ===========================================
-
-const VALID_PASSWORD = 'secret_sauce'
-const VALID_USER = 'standard_user'
 
 // ===========================================
 // variables
 // ===========================================
 
-let loginPage: LoginPage
 let homePage: HomePage
 let cartPage: CartPage
 
@@ -24,12 +15,10 @@ let cartPage: CartPage
 
 test.beforeEach(async ({ page }) => {
 
-    loginPage = new LoginPage(page)
     homePage = new HomePage(page)
     cartPage = new CartPage(page)
 
-    await page.goto('/')
-    await loginPage.login(VALID_USER, VALID_PASSWORD)
+    await page.goto('/inventory.html')
     await homePage.addToCartFirstItem()
 
 })
@@ -55,9 +44,9 @@ test.describe('Add First Item To Cart', { tag: '@smoke' }, async () => {
 
 })
 
-test.describe('Reset App State', { tag: '@smoke' }, async () => {
+test.describe('Reset App State', async () => {
 
-    test('Reset App State from Home Page', async () => {
+    test('Reset App State from Home Page', { tag: '@smoke' }, async () => {
 
         await homePage.openBurgerMenu()
         await homePage.clickOnResetStateLink()
@@ -66,7 +55,6 @@ test.describe('Reset App State', { tag: '@smoke' }, async () => {
 
         //  Issue found:
         //  Given that user added item to the cart, AND clicking on Reset App State, 'Remove' button from first item should NOT be visible.
-        //  After bugfix, implement test: await expect(homePage.btn_removeFromCartFirstItem).not.toHaveText('Remove')
 
     })
 

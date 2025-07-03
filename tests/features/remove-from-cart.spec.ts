@@ -1,20 +1,11 @@
 import { test, expect } from '@playwright/test'
-import { LoginPage } from '../pages/LoginPage'
 import { HomePage } from '../pages/HomePage'
 import { CartPage } from '../pages/CartPage'
-
-// ===========================================
-// constants
-// ===========================================
-
-const VALID_PASSWORD = 'secret_sauce'
-const VALID_USER = 'standard_user'
 
 // ===========================================
 // variables
 // ===========================================
 
-let loginPage: LoginPage
 let homePage: HomePage
 let cartPage: CartPage
 
@@ -24,24 +15,47 @@ let cartPage: CartPage
 
 test.beforeEach(async ({ page }) => {
 
-    loginPage = new LoginPage(page)
     homePage = new HomePage(page)
     cartPage = new CartPage(page)
 
-    await page.goto('/')
-    await loginPage.login(VALID_USER, VALID_PASSWORD)
+    await page.goto('/inventory.html')
     await homePage.addToCartFirstItem()
-    await homePage.clickOnCartIcon()
-    await cartPage.removeFromCartPageFirstItem()
 
-}
-)
+
+})
 
 // ===========================================
 // test scenarios
 // ===========================================
 
-test.describe('Remove Itens from cart', { tag: '@smoke' }, async () => {
+test.describe('Home Page: Remove First Item From Cart', { tag: '@smoke' }, async () => {
+
+    test.beforeEach(async () => {
+        await homePage.removeFromCartFirstItem()
+    })
+
+    test('Verify Button', async () => {
+
+        await expect(homePage.btn_removeFromCartFirstItem).not.toBeVisible()
+        await expect(homePage.btn_addToCartFirstItem).toBeVisible()
+        await expect(homePage.btn_addToCartFirstItem).toHaveText('Add to cart')
+
+    })
+
+    test('Verify Badge', async () => {
+
+        await expect(homePage.badge_cartItemQuantity).not.toBeVisible()
+
+    })
+
+})
+
+test.describe('Cart Page: Remove Itens from cart', { tag: '@smoke' }, async () => {
+
+    test.beforeEach(async () => {
+        await homePage.clickOnCartIcon()
+        await cartPage.removeFromCartPageFirstItem()
+    })
 
     test('Delete first item from cart', async () => {
 
@@ -57,4 +71,3 @@ test.describe('Remove Itens from cart', { tag: '@smoke' }, async () => {
     })
 
 })
-
