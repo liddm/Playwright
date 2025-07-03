@@ -1,5 +1,3 @@
-[![Playwright Tests](https://github.com/liddm/PlayWright/actions/workflows/playwright.yml/badge.svg?branch=main)](https://github.com/liddm/PlayWright/actions/workflows/playwright.yml)
-
 # Playwright
 
 #### ⚠️ Project in Progress
