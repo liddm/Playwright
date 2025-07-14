@@ -21,28 +21,29 @@ test.beforeEach(async ({ page }) => {
     await page.goto('/inventory.html')
     await homePage.addToCartFirstItem()
 
-
 })
 
 // ===========================================
 // test scenarios
 // ===========================================
 
-test.describe('Home Page: Remove First Item From Cart', { tag: '@smoke' }, async () => {
+test.describe('Remove First Item from Cart on Home Page', { tag: '@smoke' }, async () => {
 
     test.beforeEach(async () => {
+
         await homePage.removeFromCartFirstItem()
-    })
-
-    test('Verify Button', async () => {
-
-        await expect(homePage.btn_removeFromCartFirstItem).not.toBeVisible()
-        await expect(homePage.btn_addToCartFirstItem).toBeVisible()
-        await expect(homePage.btn_addToCartFirstItem).toHaveText('Add to cart')
 
     })
 
-    test('Verify Badge', async () => {
+    test('should hide "Remove" button and display "Add to cart" again', async () => {
+
+        await expect(homePage.btn_removeFromCartItem).not.toBeVisible()
+        await expect(homePage.btn_addToCartItem.first()).toBeVisible()
+        await expect(homePage.btn_addToCartItem.first()).toHaveText('Add to cart')
+
+    })
+
+    test('should remove cart badge after item is removed', async () => {
 
         await expect(homePage.badge_cartItemQuantity).not.toBeVisible()
 
@@ -50,21 +51,26 @@ test.describe('Home Page: Remove First Item From Cart', { tag: '@smoke' }, async
 
 })
 
-test.describe('Cart Page: Remove Itens from cart', { tag: '@smoke' }, async () => {
+test.describe('Remove Items from Cart Page', { tag: '@smoke' }, async () => {
 
     test.beforeEach(async () => {
+
         await homePage.clickOnCartIcon()
-        await cartPage.removeFromCartPageFirstItem()
+        await cartPage.removeFromCartFirstItem()
+
     })
 
-    test('Delete first item from cart', async () => {
+    test('should delete first item from cart and return to empty state', async () => {
 
-        await expect(cartPage.btn_removeFromCartPageFirstItem).not.toBeVisible()
+        await expect(cartPage.btn_removeFromCartItem).not.toBeVisible()
+
         await cartPage.continueShopping()
-        await expect(homePage.btn_removeFromCartFirstItem).not.toBeVisible()
+
+        await expect(homePage.btn_removeFromCartItem).not.toBeVisible()
+
     })
 
-    test('Verify Badge', async () => {
+    test('should hide cart badge when all items are removed', async () => {
 
         await expect(cartPage.badge_cartItemQuantity).not.toBeVisible()
 

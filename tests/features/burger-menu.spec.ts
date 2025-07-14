@@ -30,9 +30,9 @@ test.beforeEach(async ({ page }) => {
 // test scenarios
 // ===========================================
 
-test.describe('Burger Menu Validation', { tag: '@smoke' }, async () => {
+test.describe('Validate Burger Menu Navigation Options', { tag: '@smoke' }, async () => {
 
-    test('About', async ({ page }) => {
+    test('should redirect user to Sauce Labs website when clicking "About"', async ({ page }) => {
 
         await homePage.clickOnAboutLink()
 
@@ -40,17 +40,17 @@ test.describe('Burger Menu Validation', { tag: '@smoke' }, async () => {
 
     })
 
-    test('All Items', async ({ page }) => {
+    test('should navigate to All Items page from cart', async ({ page }) => {
 
         await homePage.clickOnCartIcon()
         await cartPage.goToAllItemsPage()
 
         await expect(page).toHaveURL('/inventory.html')
-        await expect(homePage.btn_addToCartFirstItem).toBeVisible()
+        await expect(homePage.btn_addToCartItem.first()).toBeVisible()
 
     })
 
-    test('Logout User', async ({ page }) => {
+    test('should logout user and redirect to login page', async ({ page }) => {
 
         await homePage.clickOnLogoutLink()
 
