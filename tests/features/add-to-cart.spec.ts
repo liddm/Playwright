@@ -19,7 +19,6 @@ test.beforeEach(async ({ page }) => {
     cartPage = new CartPage(page)
 
     await page.goto('/inventory.html')
-    await homePage.addToCartFirstItem()
 
 })
 
@@ -27,44 +26,105 @@ test.beforeEach(async ({ page }) => {
 // test scenarios
 // ===========================================
 
-test.describe('Add First Item To Cart', { tag: '@smoke' }, async () => {
+test.describe('Shopping Cart Functionality Tests', { tag: '@smoke' }, async () => {
 
-    test('Verify Button', async () => {
 
-        await expect(homePage.btn_removeFromCartFirstItem).toBeVisible()
-        await expect(homePage.btn_removeFromCartFirstItem).toHaveText('Remove')
+    test.describe('Adding a Single Item to the Cart', async () => {
 
+        test.beforeEach(async () => {
+
+            await homePage.addToCartFirstItem()
+
+        })
+
+        test('should display "Remove" button after item is added', async () => {
+
+            await expect(homePage.btn_removeFromCartItem).toBeVisible()
+            await expect(homePage.btn_removeFromCartItem).toHaveText('Remove')
+
+        })
+
+        test('should display cart badge with quantity 1', async () => {
+
+            await expect(homePage.badge_cartItemQuantity).toHaveText('1')
+
+        })
+
+        test('should match item name and price between homepage and cart', async () => {
+
+            const firstItemName: string = await homePage.getFirstItemName()
+            const firstItemPrice: string = await homePage.getFirstItemPrice()
+            await homePage.clickOnCartIcon()
+
+            await expect(cartPage.link_itemName).toHaveText(firstItemName)
+            await expect(cartPage.text_itemPrice).toHaveText(firstItemPrice)
+
+        })
     })
 
-    test('Verify Badge', async () => {
+    test.describe('Adding Multiple Items to the Cart', async () => {
 
-        await expect(homePage.badge_cartItemQuantity).toHaveText('1')
+        let clickItemCount: number
+
+        test.beforeEach(async () => {
+
+            clickItemCount = await homePage.addToCartAllItems()
+
+        })
+
+        test('should display correct badge count when multiple items are added', async () => {
+
+            await expect(homePage.badge_cartItemQuantity).toHaveText(clickItemCount.toString())
+
+        })
+
+        test('should display "Remove" buttons for all added items', async () => {
+
+            await expect(homePage.btn_removeFromCartItem).toHaveCount(clickItemCount)
+
+        })
+
+        test('should match all item names between homepage and cart', async () => {
+
+            const allItemsNameHomePage: string[] = await homePage.getAllItemsName()
+
+            await homePage.clickOnCartIcon()
+
+            const allItemsNameCartPage: string[] = await cartPage.getAllItemsName()
+
+            expect(allItemsNameHomePage).toMatchObject(allItemsNameCartPage)
+
+        })
 
     })
-
 })
 
-test.describe('Reset App State', async () => {
 
-    test('Reset App State from Home Page', { tag: '@smoke' }, async () => {
+test.describe('App State Reset Functionality', async () => {
 
+    test('should reset app state from Home Page and remove cart indicators', { tag: '@smoke' }, async () => {
+
+        await homePage.addToCartFirstItem()
         await homePage.openBurgerMenu()
         await homePage.clickOnResetStateLink()
 
         await expect(homePage.badge_cartItemQuantity).not.toBeVisible()
 
+
         //  Issue found:
         //  Given that user added item to the cart, AND clicking on Reset App State, 'Remove' button from first item should NOT be visible.
 
+
     })
 
-    test('Reset App State from Cart', async () => {
+    test('should reset app state from Cart and clear item visibility', async () => {
 
+        await homePage.addToCartFirstItem()
         await homePage.openBurgerMenu()
         await homePage.clickOnResetStateLink()
         await homePage.clickOnCartIcon()
 
-        await expect(cartPage.btn_removeFromCartPageFirstItem).not.toBeVisible()
+        await expect(cartPage.btn_removeFromCartItem.first()).not.toBeVisible()
 
     })
 

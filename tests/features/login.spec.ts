@@ -16,10 +16,12 @@ let homePage: HomePage
 // ===========================================
 
 test.beforeEach(async ({ page }) => {
+
     loginPage = new LoginPage(page)
     homePage = new HomePage(page)
 
     await page.goto('/')
+
 })
 
 // ===========================================
@@ -27,9 +29,9 @@ test.beforeEach(async ({ page }) => {
 // ===========================================
 
 
-test.describe('Login Validation', async () => {
+test.describe('Login Page Credential Validation Scenarios', async () => {
 
-    test('Valid User', { tag: '@smoke' }, async ({ page }) => {
+    test('should successfully log in with valid user credentials', { tag: '@smoke' }, async ({ page }) => {
 
         await loginPage.login(process.env.VALID_USER as string, process.env.VALID_PASSWORD as string)
 
@@ -38,7 +40,7 @@ test.describe('Login Validation', async () => {
 
     })
 
-    test('Locked User', async () => {
+    test('should display error message for locked out user', async () => {
 
         await loginPage.login(process.env.LOCKED_USER as string, process.env.VALID_PASSWORD as string)
 
@@ -46,7 +48,7 @@ test.describe('Login Validation', async () => {
 
     })
 
-    test('Invalid User', { tag: '@smoke' }, async () => {
+    test('should display error for invalid username or password', { tag: '@smoke' }, async () => {
 
         await loginPage.login(process.env.INVALID_USER as string, process.env.INVALID_PASSWORD as string)
 
@@ -55,4 +57,3 @@ test.describe('Login Validation', async () => {
     })
 
 })
-
