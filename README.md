@@ -5,7 +5,7 @@
 
 ## ❇️ Project Description
 
-This repository is for TypeScript | Playwright practice and demonstration for QA automation. It uses [Playwright](https://playwright.dev/) to perform UI and functional testing for the website [https://www.saucedemo.com/](https://www.saucedemo.com/), a test website that simulates a virtual store.
+This repository is for TypeScript | Playwright practice and demonstration for QA automation. It uses [Playwright](https://playwright.dev/) to perform UI and functional testing for the website [Sauce Demo](https://www.saucedemo.com/), a test website that simulates a virtual store.
 
 Automation tests are being developed using the Page Object Model (POM) design pattern, with a focus on good practices.  
 The main goal is to cover critical functionalities of the Sauce Demo test website, including:
