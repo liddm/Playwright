@@ -1,7 +1,6 @@
 import { test, expect, Locator } from '@playwright/test'
 import { HomePage } from '../pages/HomePage'
 import { ItemPage } from '../pages/ItemPage'
-import { features } from 'process'
 
 // ===========================================
 // variables
@@ -27,7 +26,7 @@ test.beforeEach(async ({ page }) => {
 // test scenarios
 // ===========================================
 
-test('Open first item', async ({ page }) => {
+test('Open first item', async () => {
 
     const locators: Locator[] = [
 
@@ -36,7 +35,7 @@ test('Open first item', async ({ page }) => {
         itemPage.text_itemPrice,
         itemPage.btn_addToCart,
         itemPage.img_item,
-        itemPage.btn_backToItems
+        itemPage.btn_backToProducts
 
     ]
 
@@ -72,10 +71,10 @@ test.describe('Adding Item to the Cart', async () => {
     })
 })
 
-test('Back to Items', async ({ page }) => {
+test('Back to Products', async ({ page }) => {
 
     await homePage.openFirstItem()
-    await itemPage.backToItems()
+    await itemPage.backToProducts()
 
     await expect(page).toHaveURL('/inventory.html')
     await expect(homePage.header).toBeVisible()

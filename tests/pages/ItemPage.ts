@@ -13,7 +13,7 @@ export class ItemPage extends BasePage {
     readonly text_itemPrice: Locator
     readonly btn_addToCart: Locator
     readonly btn_removeFromCart: Locator
-    readonly btn_backToItems: Locator
+    readonly btn_backToProducts: Locator
 
     constructor(page: Page) {
         super(page)
@@ -24,7 +24,7 @@ export class ItemPage extends BasePage {
         this.text_itemPrice = this.page.getByTestId('inventory-item-price')
         this.btn_addToCart = this.page.getByTestId('add-to-cart')
         this.btn_removeFromCart = this.page.getByTestId('remove')
-        this.btn_backToItems = this.page.getByTestId('back-to-items')
+        this.btn_backToProducts = this.page.getByTestId('back-to-products')
 
     }
 
@@ -44,9 +44,9 @@ export class ItemPage extends BasePage {
 
     }
 
-    async backToItems(): Promise<void> {
+    async backToProducts(): Promise<void> {
 
-        await this.btn_backToItems.click()
+        await this.btn_backToProducts.click()
 
     }
 
