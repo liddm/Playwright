@@ -54,8 +54,8 @@ This document contains the test scenarios organized by pages of the Sauce Demo w
 | Open Cart | Login to the site | 1. Add a product<br>2. Click on cart icon | Cart page is opened displaying all added items, containing name, description, quantity and 'Remove' button. It includes 'Continue Shopping' and 'Checkout' button | Yes | smoke |
 | Cart Content Display| 1. Login to the site<br>2. Add a product | 1. Go to cart page                   | Product name, description, quantity and price are displayed, 'Remove' button is displayed | Yes       | regression |
 | Remove from Cart    | 1. Login to the site<br>2. Add a product<br>3. Go to cart<br>| 1. Click 'Remove' button for added item   | Product is removed from cart                         | Yes       | regression |
-| Continue Shopping   | 1. Login to the site<br>2. Add a product<br>3. Go to cart<br>| | 1. Click on 'Continue Shopping' button on cart page               | User is redirected to Home page                      | Yes       | smoke      |
-| Proceed to Checkout | 1. Login to the site<br>2. Add a product<br>3. Go to cart<br>| | 1. Click on 'Checkout' button on cart page                        | Redirects to Checkout: Your Information page         | Yes       | smoke      |
+| Continue Shopping   | 1. Login to the site<br>2. Add a product<br>3. Go to cart<br> | 1. Click on 'Continue Shopping' button on cart page               | User is redirected to Home page                      | Yes       | smoke      |
+| Proceed to Checkout | 1. Login to the site<br>2. Add a product<br>3. Go to cart<br> | 1. Click on 'Checkout' button on cart page                        | Redirects to Checkout: Your Information page         | Yes       | smoke      |
 
 ---
 
