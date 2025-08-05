@@ -1,3 +1,5 @@
+## Github Actions
+
 [![Playwright Tests](https://github.com/liddm/Playwright/actions/workflows/playwright.yml/badge.svg)](https://github.com/liddm/Playwright/actions/workflows/playwright.yml)
 
 # Playwright
