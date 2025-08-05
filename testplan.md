@@ -1,5 +1,6 @@
 # 🧪 Test Cases for Sauce Demo
 
+## 🛠️[IN PROGRESS]
 This document contains the test scenarios organized by pages of the Sauce Demo website, including pre conditions, detailed steps, expected results, automation status, and tag classification (Smoke, Edge Case, Exploratory...)
 
 ---
