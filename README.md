@@ -1,3 +1,5 @@
+[![Playwright Tests](https://github.com/liddm/Playwright/actions/workflows/playwright.yml/badge.svg)](https://github.com/liddm/Playwright/actions/workflows/playwright.yml)
+
 # Playwright
 
 > #### ⚠️ Project in Progress  
@@ -27,25 +29,30 @@ These tests ensure the quality of key user flows on the site, validating both th
 - Page Object Model (POM) design pattern for maintainability  
 - Smoke test tagging for quick validation  
 - Setup and teardown hooks for clean test runs  
-- Secured handling of sensitive information (e.g., credentials) via environment (hidden) 
+
 
 ## ❇️ Project Structure
 
-| Path / File                     | Description                                         |
-|----------------------------------|-----------------------------------------------------|
-| `pages/`                         | Page Object classes                                |
+| Path / File                     | Description                                        |
+|----------------------------------|---------------------------------------------------|
+| `pages/`                         | Page Object classes                               |
 | ├── `LoginPage.ts`              | Page object for login screen                       |
 | ├── `HomePage.ts`               | Page object for home/inventory screen              |
-| └── `CartPage.ts`               | Page object for cart screen                        |
-| `features/`                      | Test files grouped by feature                      |
+| ├── `CartPage.ts`               | Page object for cart screen                        |
+| ├── `ItemPage.ts`               | Page object for item screen                        |
+| └── `BasePage.ts`                 | Page object for common elements                  |
+| `features/`                      | Test files grouped by feature                     |
 | ├── `login.spec.ts`             | Tests for login functionality                      |
 | ├── `cart.spec.ts`              | Tests for cart page features                       |
 | ├── `burger-menu.spec.ts`       | Tests for navigation menu links                    |
 | ├── `add-to-cart.spec.ts`       | Tests for adding items to the cart on home page    |
-| └── `remove-from-cart.spec.ts`  | Tests for removing items from cart on home page    |
+| ├── `remove-from-cart.spec.ts`  | Tests for removing items from cart on home page    |
+| └── `item-page.spec.ts`          | Tests for item page                               |
 | `playwright.config.ts`          | Playwright configuration file                      |
 | `package.json`                  | Project metadata and dependencies                  |
 | `README.md`                     | Project documentation (this file)                  |
+| `testplan.md`                     | Project test plan documentation                  |
+| `.env`                            | Test user credentials                            |
 
 ## ❇️ Technologies & Tools Used
 
