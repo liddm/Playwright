@@ -59,7 +59,7 @@ These tests ensure the quality of key user flows on the site, validating both th
 ## ❇️ Technologies & Tools Used
 
 - [Playwright](https://playwright.dev/)  
-- TypeScript  
+- Typescript  
 - Page Object Model (POM)  
 - Behavior-Driven Development (BDD)  
 - Test-Driven Development (TDD)  
