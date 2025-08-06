@@ -2,6 +2,16 @@
 
 [![Playwright Tests](https://github.com/liddm/Playwright/actions/workflows/playwright.yml/badge.svg)](https://github.com/liddm/Playwright/actions/workflows/playwright.yml)
 
+## ❇️ Table of Contents
+- [Project Description](#️-project-description)
+- [Features](#️-features)
+- [Project Structure](#️-project-structure)
+- [Technologies & Tools Used](#️-technologies--tools-used)
+- [Project Setup](#️-project-setup)
+  - [Requirements](#requirements)
+  - [Installation](#installation)
+  - [Running Tests](#running-tests)
+
 # Playwright
 
 > #### ⚠️ Project in Progress  
@@ -54,7 +64,9 @@ These tests ensure the quality of key user flows on the site, validating both th
 | `package.json`                  | Project metadata and dependencies                  |
 | `README.md`                     | Project documentation (this file)                  |
 | `testplan.md`                     | Project test plan documentation                  |
-| `.env`                            | Test user credentials                            |
+| ⚠️ `.env`                            | Test user credentials                            |
+
+##### ⚠️ _Usually .env file wouldn't be available, but since this is an automation for a test website, it is included in this project._  
 
 ## ❇️ Technologies & Tools Used
 
@@ -65,4 +77,29 @@ These tests ensure the quality of key user flows on the site, validating both th
 - Test-Driven Development (TDD)  
 - Visual Studio Code  
 - Git / GitHub  
-- Node.js & npm  
+- Node.js & npm
+
+
+## ❇️ Project Setup
+### Requirements:
+- Node.js installed in your system
+
+### Installation:
+#### 1. Clone repository
+- ```git clone https://github.com/liddm/Playwright.git```
+#### 2. Install packages
+- ```npm install```
+#### 3. Install Playwright browsers
+- ```npx playwright install --with-deps chromium```
+
+
+
+### Running tests:
+#### 1. Recommended: All tests with Typescript and ESLint verification
+- ```npm run test```
+#### 2. Specific tests
+- ```npx playwright test tests/test-name.spec.ts```
+#### 3. Using UI mode
+- ```npx playwright test --ui```
+
+
