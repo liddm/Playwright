@@ -28,6 +28,7 @@ test.beforeEach(async ({ page }) => {
     await homePage.addToCartFirstItem()
     await homePage.clickOnCartIcon()
     await cartPage.clickOnCheckoutInfoPage()
+    await checkoutInfoPage.fillCheckoutWithValidInfo()
     await checkoutInfoPage.clickOnContinueButton()
 })
 
