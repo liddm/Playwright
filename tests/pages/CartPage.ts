@@ -11,6 +11,7 @@ export class CartPage extends BasePage {
     readonly text_itemPrice: Locator
     readonly btn_removeFromCartItem: Locator
     readonly btn_continueShopping: Locator
+    readonly btn_checkoutInfo: Locator
 
     constructor(page: Page) {
         super(page)
@@ -18,6 +19,7 @@ export class CartPage extends BasePage {
         this.text_itemPrice = this.page.getByTestId('inventory-item-price')
         this.btn_removeFromCartItem = this.page.getByTestId(/remove/)
         this.btn_continueShopping = this.page.getByTestId('continue-shopping')
+        this.btn_checkoutInfo = this.page.getByTestId('checkout')
 
     }
 
@@ -50,6 +52,10 @@ export class CartPage extends BasePage {
         }
 
         return itemsNameList
+    }
+
+    async clickOnCheckoutInfoPage(): Promise<void> {
+        await this.btn_checkoutInfo.click()
     }
 
 }

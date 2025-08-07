@@ -56,4 +56,20 @@ test.describe('Login Page Credential Validation Scenarios', async () => {
 
     })
 
+    test('should display error for blank username or password', { tag: '@smoke' }, async () => {
+
+        await loginPage.login(process.env.BLANK_USER as string, process.env.BLANK_PASSWORD as string)
+
+        await expect(loginPage.error).toContainText('Epic sadface: Username is required')
+
+        await loginPage.login(process.env.VALID_USER as string, process.env.BLANK_PASSWORD as string)
+
+        await expect(loginPage.error).toContainText('Epic sadface: Password is required')
+
+        await loginPage.login(process.env.BLANK_USER as string, process.env.VALID_PASSWORD as string)
+
+        await expect(loginPage.error).toContainText('Epic sadface: Username is required')
+
+    })
+
 })
