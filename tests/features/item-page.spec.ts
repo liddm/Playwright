@@ -48,7 +48,7 @@ test('Open first item', async () => {
 
 })
 
-test.describe('Adding Item to the Cart', async () => {
+test.describe('Verify UI from ADD and REMOVE buttons', async () => {
 
     test.beforeEach(async () => {
 
@@ -78,17 +78,5 @@ test('Back to Products', async ({ page }) => {
 
     await expect(page).toHaveURL('/inventory.html')
     await expect(homePage.header).toBeVisible()
-
-})
-
-test('Check Item info between HomePage and ItemPage', async () => {
-
-    const homePageFirstItem = await homePage.getFirstItemInformation()
-
-    await homePage.openFirstItem()
-
-    const itemPageItem = await itemPage.getItemInformation()
-
-    expect(homePageFirstItem).toMatchObject(itemPageItem)
 
 })

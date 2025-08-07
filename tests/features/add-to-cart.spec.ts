@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test'
 import { HomePage } from '../pages/HomePage'
 import { CartPage } from '../pages/CartPage'
+import { ItemPage } from '../pages/ItemPage'
 
 // ===========================================
 // variables
@@ -8,6 +9,7 @@ import { CartPage } from '../pages/CartPage'
 
 let homePage: HomePage
 let cartPage: CartPage
+let itemPage: ItemPage
 
 // ===========================================
 // pre conditions
@@ -17,6 +19,7 @@ test.beforeEach(async ({ page }) => {
 
     homePage = new HomePage(page)
     cartPage = new CartPage(page)
+    itemPage = new ItemPage(page)
 
     await page.goto('/inventory.html')
 
@@ -52,12 +55,32 @@ test.describe('Shopping Cart Functionality Tests', { tag: '@smoke' }, async () =
 
         test('should match item name and price between homepage and cart', async () => {
 
-            const firstItemName: string = await homePage.getFirstItemName()
-            const firstItemPrice: string = await homePage.getFirstItemPrice()
+            const homePageFirstItem = await homePage.getFirstItemInformation()
+
             await homePage.clickOnCartIcon()
 
-            await expect(cartPage.link_itemName).toHaveText(firstItemName)
-            await expect(cartPage.text_itemPrice).toHaveText(firstItemPrice)
+            const cartPageItem = await cartPage.getItemInformation()
+
+            expect(homePageFirstItem).toMatchObject(cartPageItem)
+
+            // const firstItemName: string = await homePage.getFirstItemName()
+            // const firstItemPrice: string = await homePage.getFirstItemPrice()
+            // await homePage.clickOnCartIcon()
+
+            // await expect(cartPage.link_itemName).toHaveText(firstItemName)
+            // await expect(cartPage.text_itemPrice).toHaveText(firstItemPrice)
+
+        })
+
+        test('should match item info between HomePage and ItemPage', async () => {
+
+            const homePageFirstItem = await homePage.getFirstItemInformation()
+
+            await homePage.openFirstItem()
+
+            const itemPageItem = await itemPage.getItemInformation()
+
+            expect(homePageFirstItem).toMatchObject(itemPageItem)
 
         })
     })
