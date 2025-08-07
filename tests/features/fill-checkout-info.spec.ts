@@ -85,7 +85,7 @@ test.describe('Field Validation with Invalid Info', { tag: '@smoke' }, async () 
 
     test('should display error for blank Last Name', { tag: '@smoke' }, async () => {
 
-        await checkoutInfoPage.fillCheckoutInfo(VALID_FIRSTNAME, BLANK_LASTNAME, BLANK_POSTALCODE)
+        await checkoutInfoPage.fillCheckoutInfo(VALID_FIRSTNAME, BLANK_LASTNAME, VALID_POSTALCODE)
         await checkoutInfoPage.clickOnContinueButton()
 
         await expect(checkoutInfoPage.error).toContainText('Error: Last Name is required')
