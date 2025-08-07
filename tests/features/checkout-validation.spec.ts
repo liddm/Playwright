@@ -1,17 +1,11 @@
 import { test, expect, Locator } from '@playwright/test'
-import { HomePage } from '../pages/HomePage'
-import { CartPage } from '../pages/CartPage'
-import { CheckoutInfoPage } from '../pages/CheckoutInfoPage'
-import { CheckoutOverviewPage } from '../pages/CheckoutOverviewPage'
+import { PageManager } from '../pages/PageManager'
 
 // ===========================================
 // variables
 // ===========================================
 
-let homePage: HomePage
-let cartPage: CartPage
-let checkoutInfoPage: CheckoutInfoPage
-let checkoutOverviewPage: CheckoutOverviewPage
+let pm: PageManager
 
 // ===========================================
 // pre conditions
@@ -19,17 +13,14 @@ let checkoutOverviewPage: CheckoutOverviewPage
 
 test.beforeEach(async ({ page }) => {
 
-    homePage = new HomePage(page)
-    cartPage = new CartPage(page)
-    checkoutInfoPage = new CheckoutInfoPage(page)
-    checkoutOverviewPage = new CheckoutOverviewPage(page)
+    pm = new PageManager(page)
 
     await page.goto('/inventory.html')
-    await homePage.addToCartFirstItem()
-    await homePage.clickOnCartIcon()
-    await cartPage.clickOnCheckoutInfoPage()
-    await checkoutInfoPage.fillCheckoutWithValidInfo()
-    await checkoutInfoPage.clickOnContinueButton()
+    await pm.homePage.addToCartFirstItem()
+    await pm.homePage.clickOnCartIcon()
+    await pm.cartPage.clickOnCheckoutInfoPage()
+    await pm.checkoutInfoPage.fillCheckoutWithValidInfo()
+    await pm.checkoutInfoPage.clickOnContinueButton()
 })
 
 // ===========================================
@@ -41,21 +32,21 @@ test.describe('UI Page Check', { tag: '@ui' }, async () => {
 
     test('UI Elements should be visible', async () => {
 
-        await expect(checkoutOverviewPage.text_checkoutOverviewTitle).toHaveText('Checkout: Overview')
+        await expect(pm.checkoutOverviewPage.text_checkoutOverviewTitle).toHaveText('Checkout: Overview')
 
         const locators: Locator[] = [
-            checkoutOverviewPage.link_itemName,
-            checkoutOverviewPage.text_itemPrice,
-            checkoutOverviewPage.text_itemDescription,
-            checkoutOverviewPage.text_paymentInformationLabel,
-            checkoutOverviewPage.text_paymentInformationValue,
-            checkoutOverviewPage.text_shippingInformationLabel,
-            checkoutOverviewPage.text_priceTotalLabel,
-            checkoutOverviewPage.text_itemSubtotalLabel,
-            checkoutOverviewPage.text_taxLabel,
-            checkoutOverviewPage.text_totalLabel,
-            checkoutOverviewPage.btn_cancelCheckout,
-            checkoutOverviewPage.btn_finishCheckout
+            pm.checkoutOverviewPage.link_itemName,
+            pm.checkoutOverviewPage.text_itemPrice,
+            pm.checkoutOverviewPage.text_itemDescription,
+            pm.checkoutOverviewPage.text_paymentInformationLabel,
+            pm.checkoutOverviewPage.text_paymentInformationValue,
+            pm.checkoutOverviewPage.text_shippingInformationLabel,
+            pm.checkoutOverviewPage.text_priceTotalLabel,
+            pm.checkoutOverviewPage.text_itemSubtotalLabel,
+            pm.checkoutOverviewPage.text_taxLabel,
+            pm.checkoutOverviewPage.text_totalLabel,
+            pm.checkoutOverviewPage.btn_cancelCheckout,
+            pm.checkoutOverviewPage.btn_finishCheckout
         ]
 
         await Promise.all(locators.map((locator) => expect(locator).toBeVisible()))

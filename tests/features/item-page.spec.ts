@@ -1,13 +1,11 @@
 import { test, expect, Locator } from '@playwright/test'
-import { HomePage } from '../pages/HomePage'
-import { ItemPage } from '../pages/ItemPage'
+import { PageManager } from '../pages/PageManager'
 
 // ===========================================
 // variables
 // ===========================================
 
-let homePage: HomePage
-let itemPage: ItemPage
+let pm: PageManager
 
 // ===========================================
 // pre conditions
@@ -15,8 +13,7 @@ let itemPage: ItemPage
 
 test.beforeEach(async ({ page }) => {
 
-    homePage = new HomePage(page)
-    itemPage = new ItemPage(page)
+    pm = new PageManager(page)
 
     await page.goto('/inventory.html')
 
@@ -30,19 +27,19 @@ test('Open first item', async () => {
 
     const locators: Locator[] = [
 
-        itemPage.text_itemName,
-        itemPage.text_itemDescription,
-        itemPage.text_itemPrice,
-        itemPage.btn_addToCart,
-        itemPage.img_item,
-        itemPage.btn_backToProducts
+        pm.itemPage.text_itemName,
+        pm.itemPage.text_itemDescription,
+        pm.itemPage.text_itemPrice,
+        pm.itemPage.btn_addToCart,
+        pm.itemPage.img_item,
+        pm.itemPage.btn_backToProducts
 
     ]
 
-    await homePage.openFirstItem()
+    await pm.homePage.openFirstItem()
     await Promise.all(locators.map((locator) => expect(locator).toBeVisible()))
 
-    const requestImageStatus = await itemPage.getImageRequestStatus(itemPage.img_item)
+    const requestImageStatus = await pm.itemPage.getImageRequestStatus(pm.itemPage.img_item)
 
     expect(requestImageStatus).toBe(200)
 
@@ -52,31 +49,31 @@ test.describe('Verify UI from ADD and REMOVE buttons', async () => {
 
     test.beforeEach(async () => {
 
-        await homePage.openFirstItem()
-        await itemPage.addToCart()
+        await pm.homePage.openFirstItem()
+        await pm.itemPage.addToCart()
 
     })
 
     test('should display "Remove" button after item is added', async () => {
 
-        await expect(itemPage.btn_removeFromCart).toBeVisible()
-        await expect(itemPage.btn_removeFromCart).toHaveText('Remove')
+        await expect(pm.itemPage.btn_removeFromCart).toBeVisible()
+        await expect(pm.itemPage.btn_removeFromCart).toHaveText('Remove')
 
     })
 
     test('should display cart badge with quantity 1', async () => {
 
-        await expect(itemPage.badge_cartItemQuantity).toHaveText('1')
+        await expect(pm.itemPage.badge_cartItemQuantity).toHaveText('1')
 
     })
 })
 
 test('Back to Products', async ({ page }) => {
 
-    await homePage.openFirstItem()
-    await itemPage.backToProducts()
+    await pm.homePage.openFirstItem()
+    await pm.itemPage.backToProducts()
 
     await expect(page).toHaveURL('/inventory.html')
-    await expect(homePage.header).toBeVisible()
+    await expect(pm.homePage.header).toBeVisible()
 
 })

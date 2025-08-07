@@ -1,15 +1,11 @@
 import { test, expect } from '@playwright/test'
-import { LoginPage } from '../pages/LoginPage'
-import { HomePage } from '../pages/HomePage'
-import { CartPage } from '../pages/CartPage'
+import { PageManager } from '../pages/PageManager'
 
 // ===========================================
 // variables
 // ===========================================
 
-let loginPage: LoginPage
-let homePage: HomePage
-let cartPage: CartPage
+let pm: PageManager
 
 // ===========================================
 // pre conditions
@@ -17,12 +13,10 @@ let cartPage: CartPage
 
 test.beforeEach(async ({ page }) => {
 
-    loginPage = new LoginPage(page)
-    homePage = new HomePage(page)
-    cartPage = new CartPage(page)
+    pm = new PageManager(page)
 
     await page.goto('/inventory.html')
-    await homePage.openBurgerMenu()
+    await pm.homePage.openBurgerMenu()
 
 })
 
@@ -34,7 +28,7 @@ test.describe('Validate Burger Menu Navigation Options', { tag: '@smoke' }, asyn
 
     test('should redirect user to Sauce Labs website when clicking "About"', async ({ page }) => {
 
-        await homePage.clickOnAboutLink()
+        await pm.homePage.clickOnAboutLink()
 
         await expect(page).toHaveURL('https://saucelabs.com')
 
@@ -42,20 +36,20 @@ test.describe('Validate Burger Menu Navigation Options', { tag: '@smoke' }, asyn
 
     test('should navigate to All Items page from cart', async ({ page }) => {
 
-        await homePage.clickOnCartIcon()
-        await cartPage.goToAllItemsPage()
+        await pm.homePage.clickOnCartIcon()
+        await pm.cartPage.goToAllItemsPage()
 
         await expect(page).toHaveURL('/inventory.html')
-        await expect(homePage.btn_addToCartItem.first()).toBeVisible()
+        await expect(pm.homePage.btn_addToCartItem.first()).toBeVisible()
 
     })
 
     test('should logout user and redirect to login page', async ({ page }) => {
 
-        await homePage.clickOnLogoutLink()
+        await pm.homePage.clickOnLogoutLink()
 
         await expect(page).toHaveURL('/')
-        await expect(loginPage.field_username).toBeVisible()
+        await expect(pm.loginPage.field_username).toBeVisible()
 
     })
 
