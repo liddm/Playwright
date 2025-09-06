@@ -12,7 +12,7 @@ export class HomePage extends BasePage {
     readonly text_itemPrice: Locator
     readonly btn_addToCartItem: Locator
     readonly btn_removeFromCartItem: Locator
-
+    readonly dropdown_sortFilter: Locator
 
     constructor(page: Page) {
         super(page)
@@ -21,7 +21,7 @@ export class HomePage extends BasePage {
         this.text_itemPrice = this.page.getByTestId('inventory-item-price')
         this.btn_addToCartItem = this.page.getByTestId(/add-to-cart/)
         this.btn_removeFromCartItem = this.page.getByTestId(/remove/)
-
+        this.dropdown_sortFilter = this.page.getByTestId('product-sort-container')
     }
 
     // ===========================================
@@ -125,4 +125,15 @@ export class HomePage extends BasePage {
 
     }
 
+    async selectSortFilterByLabel(label: string): Promise<void> {
+
+        await this.dropdown_sortFilter.selectOption({ label: label })
+
+    }
+
+    async selectSortFilterByValue(value: string): Promise<void> {
+
+        await this.dropdown_sortFilter.selectOption({ value: value })
+
+    }
 }
