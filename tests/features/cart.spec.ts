@@ -1,13 +1,11 @@
-import { test } from '@playwright/test'
-import { HomePage } from '../pages/HomePage'
-//import { CartPage } from '../pages/CartPage'
+import { test, expect } from '@playwright/test'
+import { PageManager } from '../pages/PageManager'
 
 // ===========================================
 // variables
 // ===========================================
 
-let homePage: HomePage
-//let cartPage: CartPage
+let pm: PageManager
 
 // ===========================================
 // pre conditions
@@ -15,18 +13,24 @@ let homePage: HomePage
 
 test.beforeEach(async ({ page }) => {
 
-    homePage = new HomePage(page)
-    //   cartPage = new CartPage(page)
+    pm = new PageManager(page)
 
     await page.goto('/inventory.html')
-    await homePage.addToCartFirstItem()
-    await homePage.clickOnCartIcon()
 
-}
-)
+})
 
 // ===========================================
 // test scenarios
 // ===========================================
 
+test('Check Item info between HomePage and CartPage', async () => {
 
+    const homePageFirstItem = await pm.homePage.getFirstItemInformation()
+
+    await pm.homePage.openFirstItem()
+
+    const itemPageItem = await pm.itemPage.getItemInformation()
+
+    expect(homePageFirstItem).toMatchObject(itemPageItem)
+
+})
