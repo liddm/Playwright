@@ -1,13 +1,11 @@
 import { test, expect } from '@playwright/test'
-import { HomePage } from '../pages/HomePage'
-import { CartPage } from '../pages/CartPage'
+import { PageManager } from '../pages/PageManager'
 
 // ===========================================
 // variables
 // ===========================================
 
-let homePage: HomePage
-let cartPage: CartPage
+let pm: PageManager
 
 // ===========================================
 // pre conditions
@@ -15,8 +13,7 @@ let cartPage: CartPage
 
 test.beforeEach(async ({ page }) => {
 
-    homePage = new HomePage(page)
-    cartPage = new CartPage(page)
+    pm = new PageManager(page)
 
     await page.goto('/inventory.html')
 
@@ -33,31 +30,51 @@ test.describe('Shopping Cart Functionality Tests', { tag: '@smoke' }, async () =
 
         test.beforeEach(async () => {
 
-            await homePage.addToCartFirstItem()
+            await pm.homePage.addToCartFirstItem()
 
         })
 
         test('should display "Remove" button after item is added', async () => {
 
-            await expect(homePage.btn_removeFromCartItem).toBeVisible()
-            await expect(homePage.btn_removeFromCartItem).toHaveText('Remove')
+            await expect(pm.homePage.btn_removeFromCartItem).toBeVisible()
+            await expect(pm.homePage.btn_removeFromCartItem).toHaveText('Remove')
 
         })
 
         test('should display cart badge with quantity 1', async () => {
 
-            await expect(homePage.badge_cartItemQuantity).toHaveText('1')
+            await expect(pm.homePage.badge_cartItemQuantity).toHaveText('1')
 
         })
 
         test('should match item name and price between homepage and cart', async () => {
 
-            const firstItemName: string = await homePage.getFirstItemName()
-            const firstItemPrice: string = await homePage.getFirstItemPrice()
-            await homePage.clickOnCartIcon()
+            const homePageFirstItem = await pm.homePage.getFirstItemInformation()
 
-            await expect(cartPage.link_itemName).toHaveText(firstItemName)
-            await expect(cartPage.text_itemPrice).toHaveText(firstItemPrice)
+            await pm.homePage.clickOnCartIcon()
+
+            const cartPageItem = await pm.cartPage.getItemInformation()
+
+            expect(homePageFirstItem).toMatchObject(cartPageItem)
+
+            // const firstItemName: string = await homePage.getFirstItemName()
+            // const firstItemPrice: string = await homePage.getFirstItemPrice()
+            // await homePage.clickOnCartIcon()
+
+            // await expect(cartPage.link_itemName).toHaveText(firstItemName)
+            // await expect(cartPage.text_itemPrice).toHaveText(firstItemPrice)
+
+        })
+
+        test('should match item info between HomePage and ItemPage', async () => {
+
+            const homePageFirstItem = await pm.homePage.getFirstItemInformation()
+
+            await pm.homePage.openFirstItem()
+
+            const itemPageItem = await pm.itemPage.getItemInformation()
+
+            expect(homePageFirstItem).toMatchObject(itemPageItem)
 
         })
     })
@@ -68,29 +85,29 @@ test.describe('Shopping Cart Functionality Tests', { tag: '@smoke' }, async () =
 
         test.beforeEach(async () => {
 
-            clickItemCount = await homePage.addToCartAllItems()
+            clickItemCount = await pm.homePage.addToCartAllItems()
 
         })
 
         test('should display correct badge count when multiple items are added', async () => {
 
-            await expect(homePage.badge_cartItemQuantity).toHaveText(clickItemCount.toString())
+            await expect(pm.homePage.badge_cartItemQuantity).toHaveText(clickItemCount.toString())
 
         })
 
         test('should display "Remove" buttons for all added items', async () => {
 
-            await expect(homePage.btn_removeFromCartItem).toHaveCount(clickItemCount)
+            await expect(pm.homePage.btn_removeFromCartItem).toHaveCount(clickItemCount)
 
         })
 
         test('should match all item names between homepage and cart', async () => {
 
-            const allItemsNameHomePage: string[] = await homePage.getAllItemsName()
+            const allItemsNameHomePage: string[] = await pm.homePage.getAllItemsName()
 
-            await homePage.clickOnCartIcon()
+            await pm.homePage.clickOnCartIcon()
 
-            const allItemsNameCartPage: string[] = await cartPage.getAllItemsName()
+            const allItemsNameCartPage: string[] = await pm.cartPage.getAllItemsName()
 
             expect(allItemsNameHomePage).toMatchObject(allItemsNameCartPage)
 
@@ -104,11 +121,11 @@ test.describe('App State Reset Functionality', async () => {
 
     test('should reset app state from Home Page and remove cart indicators', { tag: '@smoke' }, async () => {
 
-        await homePage.addToCartFirstItem()
-        await homePage.openBurgerMenu()
-        await homePage.clickOnResetStateLink()
+        await pm.homePage.addToCartFirstItem()
+        await pm.homePage.openBurgerMenu()
+        await pm.homePage.clickOnResetStateLink()
 
-        await expect(homePage.badge_cartItemQuantity).not.toBeVisible()
+        await expect(pm.homePage.badge_cartItemQuantity).not.toBeVisible()
 
 
         //  Issue found:
@@ -119,12 +136,12 @@ test.describe('App State Reset Functionality', async () => {
 
     test('should reset app state from Cart and clear item visibility', async () => {
 
-        await homePage.addToCartFirstItem()
-        await homePage.openBurgerMenu()
-        await homePage.clickOnResetStateLink()
-        await homePage.clickOnCartIcon()
+        await pm.homePage.addToCartFirstItem()
+        await pm.homePage.openBurgerMenu()
+        await pm.homePage.clickOnResetStateLink()
+        await pm.homePage.clickOnCartIcon()
 
-        await expect(cartPage.btn_removeFromCartItem.first()).not.toBeVisible()
+        await expect(pm.cartPage.btn_removeFromCartItem.first()).not.toBeVisible()
 
     })
 

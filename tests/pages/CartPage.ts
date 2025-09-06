@@ -12,11 +12,13 @@ export class CartPage extends BasePage {
     readonly btn_removeFromCartItem: Locator
     readonly btn_continueShopping: Locator
     readonly btn_checkoutInfo: Locator
+    readonly text_itemDescription: Locator
 
     constructor(page: Page) {
         super(page)
         this.link_itemName = this.page.getByTestId('inventory-item-name')
         this.text_itemPrice = this.page.getByTestId('inventory-item-price')
+        this.text_itemDescription = this.page.getByTestId('inventory-item-desc')
         this.btn_removeFromCartItem = this.page.getByTestId(/remove/)
         this.btn_continueShopping = this.page.getByTestId('continue-shopping')
         this.btn_checkoutInfo = this.page.getByTestId('checkout')
@@ -55,7 +57,53 @@ export class CartPage extends BasePage {
     }
 
     async clickOnCheckoutInfoPage(): Promise<void> {
+
         await this.btn_checkoutInfo.click()
+
+    }
+
+    async getItemName(): Promise<string> {
+
+        const itemName: string | null = await this.link_itemName.textContent()
+
+        if (!itemName) throw new Error("Item name does not exist.")
+
+        return itemName
+
+    }
+
+    async getItemDescription(): Promise<string> {
+
+        const itemDescription: string | null = await this.text_itemDescription.textContent()
+
+        if (!itemDescription) throw new Error("Item description does not exist.")
+
+        return itemDescription
+
+    }
+
+    async getItemPrice(): Promise<string> {
+
+        const itemPrice: string | null = await this.text_itemPrice.textContent()
+
+        if (!itemPrice) throw new Error("Item Price does not exist.")
+
+        return itemPrice
+
+    }
+
+    async getItemInformation(): Promise<{ itemName: string, itemDescription: string, itemPrice: string }> {
+
+        const itemName = await this.getItemName()
+        const itemDescription = await this.getItemDescription()
+        const itemPrice = await this.getItemPrice()
+
+        return {
+
+            itemName, itemDescription, itemPrice
+
+        }
+
     }
 
 }
