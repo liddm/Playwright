@@ -2,7 +2,13 @@
 
 import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
-import playwright from 'eslint-plugin-playwright'
+import playwright from "eslint-plugin-playwright";
+import path from "path";
+import { fileURLToPath } from "url";
+
+// Resolve __dirname in ES module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export default tseslint.config(
     eslint.configs.recommended,
@@ -35,7 +41,7 @@ export default tseslint.config(
             parserOptions: {
 
                 project: true,
-                tsconfigRootDir: ".",
+                tsconfigRootDir: __dirname,
             },
         },
 
