@@ -1,8 +1,10 @@
-// @ts-check
-
 import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
 import playwright from 'eslint-plugin-playwright'
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default tseslint.config(
     eslint.configs.recommended,
@@ -33,9 +35,8 @@ export default tseslint.config(
     {
         languageOptions: {
             parserOptions: {
-
                 project: true,
-                tsconfigRootDir: ".",
+                tsconfigRootDir: __dirname,
             },
         },
 
