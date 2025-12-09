@@ -4,7 +4,7 @@
     "main": "index.js",
     "scripts": {
         "pretest": "npx tsc --noEmit && npx eslint tests/** --fix",
-        "test": "playwright test",
+        "test": "playwright test --project webkit",
         "presmoke": "npx tsc --noEmit && npx eslint tests/** --fix",
         "smoke": "playwright test --grep smoke"
     },
